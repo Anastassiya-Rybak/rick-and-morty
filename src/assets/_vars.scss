@@ -1,0 +1,26 @@
+// COLORS
+$main-dark: #679c38;
+$main-light: rgb(255, 255, 255);
+$accent: #60e520;
+
+// mixins
+
+// @mixin media($width) {
+//   @media (max-width: $width) {
+//     @content
+//   }
+// };
+
+// @mixin hover() {
+//   @media (hover: hover){
+//     &:hover {
+//         @content
+//     }
+//   };
+
+//   @media (hover: none){
+//       &:active {
+//           @content
+//       }
+//   };
+// }
