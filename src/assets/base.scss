@@ -1,8 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@font-face {
+  font-family: 'Kaph';
+  src:
+    url('/fonts/Kaph-Regular.woff2') format('woff2'),
+    url('/fonts/Kaph-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Quicksand';
+  font-optical-sizing: auto;
   color: $main-light;
 }
 
