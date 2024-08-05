@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">Загрузка персонажей. . .</div>
+  <div class="loading">Загрузка . . .</div>
 </template>
 
 <script setup></script>

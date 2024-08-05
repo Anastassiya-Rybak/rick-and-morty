@@ -1,34 +1,51 @@
 <template>
-  <div class="character-page container">
-    <TheLoading v-if="!characterData" />
-    <article v-else class="character-page__info characters-info">
-      <figure class="characters-info__image">
-        <img :src="characterData.image" :alt="characterData.name" />
-      </figure>
-      <header class="characters-info__header">
-        <h2>{{ characterData.name }}</h2>
-      </header>
-      <section class="characters-info__content">
-        <ul>
-          <li><b>Статус:</b> {{ characterData.status }}</li>
-          <li><b>Вид:</b> {{ characterData.species }}</li>
-          <li><b>Пол:</b> {{ characterData.gender }}</li>
-          <li>
-            <b>Месторождение: </b>
-            <router-link :to="characterData.origin.url" style="color: #679c38; text-align: right">
-              {{ characterData.origin.name }}
-            </router-link>
-          </li>
-          <li>
-            <b>Местоположение: </b>
-            <router-link :to="characterData.location.url" style="color: #679c38; text-align: right">
-              {{ characterData.location.name }}
-            </router-link>
-          </li>
-        </ul>
-      </section>
-    </article>
-    <section class="character-page__episode-links"></section>
+  <div class="container">
+    <section class="character-page">
+      <TheLoading v-if="loading" />
+      <article v-else class="character-page__info characters-info">
+        <figure class="characters-info__image">
+          <img :src="characterData.image" :alt="characterData.name" />
+        </figure>
+        <header class="characters-info__header">
+          <h2>{{ characterData.name }}</h2>
+        </header>
+        <section class="characters-info__content">
+          <ul>
+            <li><b>Статус:</b> {{ characterData.status }}</li>
+            <li><b>Вид:</b> {{ characterData.species }}</li>
+            <li><b>Пол:</b> {{ characterData.gender }}</li>
+            <li>
+              <b>Месторождение: </b>
+              <router-link
+                :to="'/Locations/' + getLinkId(characterData.origin.url)"
+                style="color: #679c38; text-align: right"
+              >
+                {{ characterData.origin.name }}
+              </router-link>
+            </li>
+            <li>
+              <b>Местоположение: </b>
+              <router-link
+                :to="'/Locations/' + getLinkId(characterData.origin.url)"
+                style="color: #679c38; text-align: right"
+              >
+                {{ characterData.location.name }}
+              </router-link>
+            </li>
+          </ul>
+        </section>
+      </article>
+    </section>
+    <section class="episode-links">
+      <h2>эпизоды с персонажем:</h2>
+      <ul v-if="!loading">
+        <li v-for="(episode, idx) in characterData.episode" :key="idx">
+          <routerLink :to="'/Episodes/' + getLinkId(episode)">
+            Эпизод № {{ getLinkId(episode) }}
+          </routerLink>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
@@ -36,12 +53,13 @@
 import { useCharacterStore } from '@/stores/character'
 import { useApiRequest } from '@/composables/useApiRequest'
 import TheLoading from '@/components/TheLoading.vue'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const characterStore = useCharacterStore()
 const error = ref(null)
+const loading = ref(true)
 
 const characterData = ref(null)
 
@@ -63,6 +81,16 @@ const findData = () => {
     fetchCharacter()
   }
 }
+
+const getLinkId = (str) => {
+  const strToArr = str.split('/')
+
+  return strToArr[strToArr.length - 1]
+}
+
+watch(characterData, () => {
+  loading.value = false
+})
 
 onMounted(() => {
   findData()
@@ -121,6 +149,27 @@ onBeforeUnmount(() => {
 
     li {
       border-bottom: 0.5px solid black;
+    }
+  }
+}
+
+.episode-links {
+  padding: 1vh 5px 8vh;
+
+  h2 {
+    text-transform: uppercase;
+    font-weight: 100;
+    line-height: 2em;
+  }
+
+  ul li {
+    line-height: 1.5em;
+    @include hover {
+      transform: scale(1.05);
+    }
+
+    &:nth-child(odd) {
+      background-color: rgba(240, 248, 255, 0.479);
     }
   }
 }
