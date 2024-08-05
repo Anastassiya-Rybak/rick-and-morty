@@ -1,5 +1,6 @@
 <template>
   <section class="home-view container">
+    <h1 hidden>Главная страница</h1>
     <TheLoading v-if="!characters" />
     <ul v-else>
       <li v-for="character in characters" :key="character">
@@ -7,7 +8,7 @@
           class="home-view__character-card"
           :name="character.name"
           :image="character.image"
-          @click="jumpToCharacter(character.name)"
+          @click="jumpToCharacter(character)"
         />
       </li>
     </ul>
@@ -20,10 +21,12 @@ import TheCharactersCard from '@/components/TheCharactersCard.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useCharacterStore } from '@/stores/character'
 
 const characters = ref(null)
 const error = ref(null)
 const route = useRouter()
+const characterStore = useCharacterStore()
 
 const fetchCharacters = async () => {
   const data = await useApiRequest('character')
@@ -34,8 +37,9 @@ const fetchCharacters = async () => {
   }
 }
 
-const jumpToCharacter = (name) => {
-  route.push(name)
+const jumpToCharacter = (character) => {
+  characterStore.updateData(character)
+  route.push(String(character.id))
 }
 
 onBeforeMount(() => {
