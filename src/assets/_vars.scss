@@ -11,6 +11,14 @@ $accent: #b1df28de;
 //   }
 // };
 
+@mixin accentText($size) {
+  font-family: 'Kaph';
+  font-size: $size;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0.2em 0.3em #1b99306c;
+}
+
 @mixin hover {
   @media (hover: hover) {
     &:hover {
