@@ -6,20 +6,32 @@
     <nav class="header__nav">
       <ul>
         <li>
-          <routerLink to="Home" class="header__link">ГЛАВНАЯ</routerLink>
+          <a class="header__link" @click.prevent="goToPage()">ГЛАВНАЯ</a>
         </li>
         <li>
-          <routerLink to="Episodes" class="header__link">ЭПИЗОДЫ</routerLink>
+          <a class="header__link" @click.prevent="goToPage('Episodes')">ЭПИЗОДЫ</a>
         </li>
         <li>
-          <routerLink to="Locations" class="header__link">ЛОКАЦИИ</routerLink>
+          <a class="header__link" @click.prevent="goToPage('Locations')">ЛОКАЦИИ</a>
         </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const goToPage = (pathName = null) => {
+  if (pathName) {
+    router.push({ path: pathName, query: { page: '1' } })
+  } else {
+    router.push({ path: '/' })
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 @import './../assets/vars';
