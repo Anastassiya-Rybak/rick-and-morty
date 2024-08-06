@@ -54,7 +54,7 @@ import { useMultiStore } from '@/stores/multi'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -91,8 +91,12 @@ onMounted(() => {
   findData()
 })
 
-onBeforeUnmount(() => {
+onBeforeUpdate(() => {
   multiStore.saveData(route.fullPath)
+})
+
+onBeforeUnmount(() => {
+  multiStore.reset(route.fullPath)
 })
 </script>
 

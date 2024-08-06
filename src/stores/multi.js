@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useCharacterStore = defineStore('character', () => {
+export const useMultiStore = defineStore('multi', () => {
   const data = ref(null)
 
   const updateData = (currentData) => {
@@ -15,5 +15,10 @@ export const useCharacterStore = defineStore('character', () => {
     }
   }
 
-  return { data, updateData, saveData }
+  const reset = (path) => {
+    data.value = null
+    sessionStorage.removeItem(path)
+  }
+
+  return { data, updateData, saveData, reset }
 })
