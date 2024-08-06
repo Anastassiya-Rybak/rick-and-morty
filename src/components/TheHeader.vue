@@ -56,11 +56,8 @@ const goToPage = (pathName = null) => {
   }
 
   &__link {
-    font-family: 'Kaph';
-    font-size: 0.8em;
     color: $main-light;
-    text-shadow: 0 0.5em 0.5em #1b99306c;
-
+    @include accentText($size: 0.8em);
     @include hover {
       text-shadow:
         0 0 0.2em rgba(17, 63, 15, 0.692),
