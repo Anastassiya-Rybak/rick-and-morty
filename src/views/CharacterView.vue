@@ -50,33 +50,28 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from '@/stores/character'
+import { useMultiStore } from '@/stores/multi'
 import { useApiRequest } from '@/composables/useApiRequest'
+import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const characterStore = useCharacterStore()
-const error = ref(null)
+const multiStore = useMultiStore()
 const loading = ref(true)
 
 const characterData = ref(null)
 
 const fetchCharacter = async () => {
   const data = await useApiRequest(`character/${route.params.id}`)
-  if (data.error) {
-    error.value = data.error
-  } else {
-    characterData.value = data
-  }
+  characterData.value = data
 }
 
 const findData = () => {
-  if (sessionStorage.getItem(route.fullPath)) {
-    characterData.value = JSON.parse(sessionStorage.getItem(route.fullPath))
-  } else if (characterStore.data) {
-    characterData.value = characterStore.data
+  const foundData = useFindData()
+  if (foundData) {
+    characterData.value = foundData
   } else {
     fetchCharacter()
   }
@@ -97,7 +92,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  characterStore.saveData(route.fullPath)
+  multiStore.saveData(route.fullPath)
 })
 </script>
 
