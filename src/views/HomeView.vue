@@ -20,10 +20,12 @@ import TheCharactersCard from '@/components/TheCharactersCard.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useMultiStore } from '@/stores/multi'
 
 const characters = ref(null)
 const error = ref(null)
-const route = useRouter()
+const router = useRouter()
+const multiStore = useMultiStore()
 
 const fetchCharacters = async () => {
   const data = await useApiRequest('character')
@@ -34,8 +36,9 @@ const fetchCharacters = async () => {
   }
 }
 
-const jumpToCharacter = (name) => {
-  route.push(name)
+const jumpToCharacter = (character) => {
+  multiStore.updateData(character)
+  router.push('/' + character.id)
 }
 
 onBeforeMount(() => {
