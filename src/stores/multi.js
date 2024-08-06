@@ -15,8 +15,9 @@ export const useMultiStore = defineStore('multi', () => {
     }
   }
 
-  const reset = () => {
+  const reset = (path) => {
     data.value = null
+    sessionStorage.removeItem(path)
   }
 
   return { data, updateData, saveData, reset }

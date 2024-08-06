@@ -10,7 +10,7 @@
     <div class="pagination" v-if="overallInfo">
       <ThePaginationBtn
         class="pagination__item"
-        :class="{ pagination__item_active: idx + 1 === activePage }"
+        :class="{ pagination__item_active: idx + 1 == activePage }"
         v-for="(page, idx) in overallInfo.pages"
         :key="page"
         :number="idx + 1"
@@ -24,15 +24,17 @@
 import TheLoading from '@/components/TheLoading.vue'
 import ThePaginationBtn from '@/components/ThePaginationBtn.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
-import { onBeforeUpdate, onBeforeMount, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useFindData } from '@/composables/useFindData'
+import { onBeforeUpdate, onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useMultiStore } from '@/stores/multi'
 
 const episodesList = ref(null)
-const route = useRouter()
+const router = useRouter()
+const route = useRoute()
 const multiStore = useMultiStore()
 const overallInfo = ref(null)
-const activePage = ref(1)
+const activePage = ref(route.query.page)
 
 const fetchEpisodes = async (num) => {
   const data = await useApiRequest(`episode?page=${num}`)
@@ -41,20 +43,37 @@ const fetchEpisodes = async (num) => {
 }
 
 const jumpToEpisode = (episode) => {
-  route.push('/Episodes/' + episode.id)
+  router.push('/Episodes/' + episode.id)
 }
 
 const jumpToAnotherPage = (num) => {
-  fetchEpisodes(num)
   activePage.value = num
 }
 
+const findData = () => {
+  const foundData = useFindData()
+  if (foundData) {
+    episodesList.value = foundData
+  } else {
+    fetchEpisodes(route.query.page)
+  }
+}
+
+watch(activePage, (newValue) => {
+  router.push({ path: 'Episodes', query: { page: newValue } })
+  fetchEpisodes(newValue)
+})
+
 onBeforeMount(() => {
-  fetchEpisodes(1)
+  findData()
 })
 
 onBeforeUpdate(() => {
   multiStore.updateData(episodesList.value)
+})
+
+onBeforeUnmount(() => {
+  multiStore.reset(route.fullPath)
 })
 </script>
 
