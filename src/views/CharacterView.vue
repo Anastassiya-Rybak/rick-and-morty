@@ -39,10 +39,8 @@
     <section class="episode-links">
       <h2>эпизоды с персонажем:</h2>
       <ul v-if="!loading">
-        <li v-for="(episode, idx) in characterData.episode" :key="idx">
-          <routerLink :to="'/Episodes/' + getLinkId(episode)">
-            Эпизод № {{ getLinkId(episode) }}
-          </routerLink>
+        <li v-for="(episode, idx) in characterData.episode" :key="idx" @click="jumpTo(episode)">
+          Эпизод № {{ getLinkId(episode) }}
         </li>
       </ul>
     </section>
@@ -55,11 +53,12 @@ import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()
-const multiStore = useMultiStore()
-const loading = ref(true)
+const route = useRoute(),
+  router = useRouter(),
+  multiStore = useMultiStore(),
+  loading = ref(true)
 
 const characterData = ref(null)
 
@@ -79,8 +78,11 @@ const findData = () => {
 
 const getLinkId = (str) => {
   const strToArr = str.split('/')
-
   return strToArr[strToArr.length - 1]
+}
+
+const jumpTo = (episode) => {
+  router.push('/Episodes/' + getLinkId(episode))
 }
 
 watch(characterData, () => {
