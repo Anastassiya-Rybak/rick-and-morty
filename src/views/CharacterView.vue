@@ -26,7 +26,7 @@
             <li>
               <b>Местоположение: </b>
               <router-link
-                :to="'/Locations/' + getLinkId(characterData.origin.url)"
+                :to="'/Locations/' + getLinkId(characterData.location.url)"
                 style="color: #679c38; text-align: right"
               >
                 {{ characterData.location.name }}
