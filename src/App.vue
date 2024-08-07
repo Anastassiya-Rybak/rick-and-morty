@@ -9,7 +9,6 @@ import TheHeader from './components/TheHeader.vue'
     <main>
       <RouterView />
     </main>
-    <TheFooter />
   </div>
 </template>
 
