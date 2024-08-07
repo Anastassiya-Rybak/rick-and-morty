@@ -12,11 +12,13 @@
         />
       </li>
     </ul>
+    <ThePaginationBtn class="pagination-button" number="Показать больше" @click="openMore" />
   </section>
 </template>
 
 <script setup>
 import TheLoading from '@/components/TheLoading.vue'
+import ThePaginationBtn from '@/components/ThePaginationBtn.vue'
 import TheCharactersCard from '@/components/TheCharactersCard.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { onBeforeMount, ref } from 'vue'
@@ -27,14 +29,26 @@ const characters = ref(null)
 const error = ref(null)
 const router = useRouter()
 const multiStore = useMultiStore()
+const overallInfo = ref(null)
+const activePage = ref(1)
 
 const fetchCharacters = async () => {
-  const data = await useApiRequest('character')
+  const data = await useApiRequest(`character?page=${activePage.value}`)
   if (data.error) {
     error.value = data.error
   } else {
-    characters.value = data.results
+    if (characters.value && overallInfo.value.pages >= activePage.value) {
+      characters.value = characters.value.concat(data.results)
+    } else {
+      characters.value = data.results
+      overallInfo.value = data.info
+    }
   }
+}
+
+const openMore = () => {
+  activePage.value++
+  fetchCharacters()
 }
 
 const jumpToCharacter = (character) => {
@@ -50,6 +64,10 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 .home-view {
   margin: 5vh auto 5vh auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 2vh;
 
   ul {
     margin: 0 auto;
