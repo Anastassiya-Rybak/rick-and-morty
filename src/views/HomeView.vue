@@ -1,5 +1,6 @@
 <template>
   <section class="home-view container">
+    <h1 hidden>Главная страница</h1>
     <TheLoading v-if="!characters" />
     <ul v-else>
       <li v-for="character in characters" :key="character">
@@ -7,7 +8,7 @@
           class="home-view__character-card"
           :name="character.name"
           :image="character.image"
-          @click="jumpToCharacter(character.name)"
+          @click="jumpToCharacter(character)"
         />
       </li>
     </ul>
