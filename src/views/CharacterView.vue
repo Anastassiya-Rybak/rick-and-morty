@@ -39,10 +39,8 @@
     <section class="episode-links">
       <h2>эпизоды с персонажем:</h2>
       <ul v-if="!loading">
-        <li v-for="(episode, idx) in characterData.episode" :key="idx">
-          <routerLink :to="'/Episodes/' + getLinkId(episode)">
-            Эпизод № {{ getLinkId(episode) }}
-          </routerLink>
+        <li v-for="(episode, idx) in characterData.episode" :key="idx" @click="jumpTo(episode)">
+          Эпизод № {{ getLinkId(episode) }}
         </li>
       </ul>
     </section>
@@ -50,33 +48,29 @@
 </template>
 
 <script setup>
-import { useCharacterStore } from '@/stores/character'
+import { useMultiStore } from '@/stores/multi'
 import { useApiRequest } from '@/composables/useApiRequest'
+import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()
-const characterStore = useCharacterStore()
-const error = ref(null)
-const loading = ref(true)
+const route = useRoute(),
+  router = useRouter(),
+  multiStore = useMultiStore(),
+  loading = ref(true)
 
 const characterData = ref(null)
 
 const fetchCharacter = async () => {
   const data = await useApiRequest(`character/${route.params.id}`)
-  if (data.error) {
-    error.value = data.error
-  } else {
-    characterData.value = data
-  }
+  characterData.value = data
 }
 
 const findData = () => {
-  if (sessionStorage.getItem(route.fullPath)) {
-    characterData.value = JSON.parse(sessionStorage.getItem(route.fullPath))
-  } else if (characterStore.data) {
-    characterData.value = characterStore.data
+  const foundData = useFindData()
+  if (foundData) {
+    characterData.value = foundData
   } else {
     fetchCharacter()
   }
@@ -84,8 +78,11 @@ const findData = () => {
 
 const getLinkId = (str) => {
   const strToArr = str.split('/')
-
   return strToArr[strToArr.length - 1]
+}
+
+const jumpTo = (episode) => {
+  router.push('/Episodes/' + getLinkId(episode))
 }
 
 watch(characterData, () => {
@@ -97,7 +94,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  characterStore.saveData(route.fullPath)
+  multiStore.saveData(route.fullPath)
 })
 </script>
 
