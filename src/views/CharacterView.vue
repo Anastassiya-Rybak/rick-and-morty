@@ -26,7 +26,7 @@
             <li>
               <b>Местоположение: </b>
               <router-link
-                :to="'/Locations/' + getLinkId(characterData.origin.url)"
+                :to="'/Locations/' + getLinkId(characterData.location.url)"
                 style="color: #679c38; text-align: right"
               >
                 {{ characterData.location.name }}
@@ -52,13 +52,12 @@ import { useMultiStore } from '@/stores/multi'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
-const route = useRoute(),
-  router = useRouter(),
-  multiStore = useMultiStore(),
-  loading = ref(true)
+const route = useRoute()
+const multiStore = useMultiStore()
+const loading = ref(true)
 
 const characterData = ref(null)
 
@@ -93,8 +92,12 @@ onMounted(() => {
   findData()
 })
 
-onBeforeUnmount(() => {
+onBeforeUpdate(() => {
   multiStore.saveData(route.fullPath)
+})
+
+onBeforeUnmount(() => {
+  multiStore.reset(route.fullPath)
 })
 </script>
 

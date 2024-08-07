@@ -15,20 +15,20 @@ const router = createRouter({
     {
       path: '/Episodes',
       name: 'Episodes',
-      component: () => import('../views/Episodes/index.vue')
+      component: () => import('../views/Episodes/EpisodesView.vue')
     },
     {
       path: '/Episodes/:id',
-      component: () => import('@/views/Episodes/Episode.vue')
+      component: () => import('@/views/Episodes/TheEpisode.vue')
     },
     {
       path: '/Locations',
       name: 'Locations',
-      component: () => import('../views/Locations/index.vue')
+      component: () => import('../views/Locations/LocationsView.vue')
     },
     {
       path: '/Locations/:id',
-      component: () => import('@/views/Locations/Location.vue')
+      component: () => import('@/views/Locations/TheLocation.vue')
     }
   ]
 })
