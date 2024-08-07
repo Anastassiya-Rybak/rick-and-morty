@@ -39,10 +39,8 @@
     <section class="episode-links">
       <h2>эпизоды с персонажем:</h2>
       <ul v-if="!loading">
-        <li v-for="(episode, idx) in characterData.episode" :key="idx">
-          <routerLink :to="'/Episodes/' + getLinkId(episode)">
-            Эпизод № {{ getLinkId(episode) }}
-          </routerLink>
+        <li v-for="(episode, idx) in characterData.episode" :key="idx" @click="jumpTo(episode)">
+          Эпизод № {{ getLinkId(episode) }}
         </li>
       </ul>
     </section>
@@ -79,8 +77,11 @@ const findData = () => {
 
 const getLinkId = (str) => {
   const strToArr = str.split('/')
-
   return strToArr[strToArr.length - 1]
+}
+
+const jumpTo = (episode) => {
+  router.push('/Episodes/' + getLinkId(episode))
 }
 
 watch(characterData, () => {
