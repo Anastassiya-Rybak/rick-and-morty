@@ -26,7 +26,7 @@ const router = useRouter()
 
 const goToPage = (pathName = null) => {
   if (pathName) {
-    router.push({ path: pathName, query: { page: '1' } })
+    router.push({ path: `/${pathName}`, query: { page: '1' } })
   } else {
     router.push({ path: '/' })
   }
