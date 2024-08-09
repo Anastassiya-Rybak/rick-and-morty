@@ -34,6 +34,7 @@ const characterName = computed(() => {
   width: 100%;
   position: relative;
   margin: 0 auto;
+  cursor: pointer;
 
   &__img {
     width: 90%;
@@ -63,7 +64,7 @@ const characterName = computed(() => {
 
     padding: 0 0.5em 0 0.5em;
 
-    font-size: 0.6rem;
+    font-size: calcFlexFontSize(10, 16);
     background-color: #fff;
     color: black;
   }

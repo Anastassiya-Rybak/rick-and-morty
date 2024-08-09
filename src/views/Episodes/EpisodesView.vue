@@ -81,13 +81,18 @@ onBeforeUnmount(() => {
 @import '@/assets/vars';
 
 .episode-page {
+  font-size: calcFlexFontSize(22, 30);
   padding: 3vh 0 2vh;
+  @include media(1220px) {
+    width: 60%;
+  }
 }
 
 .episode-list li {
   display: flex;
   justify-content: space-between;
   padding: 1vw 1vw;
+  cursor: pointer;
 
   @include hover {
     transform: scale(1.05);

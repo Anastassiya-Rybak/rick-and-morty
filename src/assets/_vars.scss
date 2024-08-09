@@ -5,18 +5,26 @@ $accent: #b1df28de;
 
 // mixins
 
-// @mixin media($width) {
-//   @media (max-width: $width) {
-//     @content
-//   }
-// };
+@mixin media($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
 
-@mixin accentText($size) {
+@mixin accentText() {
   font-family: 'Kaph';
-  font-size: $size;
   font-weight: 400;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.1;
   text-shadow: 0 0.2em 0.3em #1b99306c;
+}
+
+@function calcFlexFontSize($f-min, $f-max) {
+  $k: calc(($f-max - $f-min) / (1440 - 460));
+  $b: $f-min - $k * 460;
+
+  $b: $b * 1px;
+
+  @return calc(#{$k} * 100vw + #{$b});
 }
 
 @mixin hover {

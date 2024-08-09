@@ -38,12 +38,23 @@ const goToPage = (pathName = null) => {
 .header {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-evenly;
 
   &__logo,
   &__nav {
     width: 85vw;
     margin-top: 2.5vh;
+  }
+
+  &__logo {
+    @include media(650px) {
+      width: 60vw;
+    }
+
+    @include media(1020px) {
+      width: 30%;
+    }
   }
 
   &__nav {
@@ -53,11 +64,17 @@ const goToPage = (pathName = null) => {
       display: flex;
       justify-content: space-between;
     }
+
+    @include media(1020px) {
+      width: 65%;
+    }
   }
 
   &__link {
     color: $main-light;
-    @include accentText($size: 0.8em);
+    cursor: pointer;
+    @include accentText;
+    font-size: calcFlexFontSize(14, 24);
     @include hover {
       text-shadow:
         0 0 0.2em rgba(17, 63, 15, 0.692),

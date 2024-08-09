@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="character-page-wrapper container">
     <section class="character-page">
       <TheLoading v-if="loading" />
       <article v-else class="character-page__info characters-info">
@@ -105,13 +105,42 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 @import './../assets/vars';
 
+.character-page-wrapper {
+  font-size: calcFlexFontSize(24, 42);
+
+  @include media(720px) {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @include media(1220px) {
+    justify-content: center;
+  }
+}
+
 .character-page {
   background-color: $main-light;
   border-radius: 1%;
   overflow: hidden;
   padding: 7vw;
   margin-top: 5vh;
+  height: fit-content;
   box-shadow: 0 0.5vh 0.5vh 1px rgba(0, 0, 0, 0.089);
+
+  @include media(880px) {
+    width: 60%;
+    padding: 5%;
+  }
+
+  @include media(1020px) {
+    padding: 5%;
+    margin-top: 3vh;
+  }
+
+  @include media(1220px) {
+    padding: 3%;
+    width: 40%;
+  }
 }
 
 .characters-info {
@@ -134,22 +163,23 @@ onBeforeUnmount(() => {
   }
 
   &__header h2 {
-    @include accentText($size: 1.5em);
+    @include accentText;
+    font-size: 1em;
     color: rgba(0, 0, 0, 0.404);
     text-align: center;
     margin: 2vh auto;
   }
 
-  &__content ul {
-    * {
-      text-align-last: justify;
-      color: black;
-      line-height: 1.5em;
-      font-size: 1em;
-    }
+  &__content ul li {
+    text-align-last: justify;
+    color: black;
+    line-height: 1.5em;
+    font-size: 0.5em;
+    border-bottom: 0.5px solid black;
 
-    li {
-      border-bottom: 0.5px solid black;
+    b {
+      font-size: 0.9em;
+      color: black;
     }
   }
 }
@@ -159,12 +189,15 @@ onBeforeUnmount(() => {
 
   h2 {
     text-transform: uppercase;
+    font-size: 0.8em;
     font-weight: 100;
     line-height: 2em;
   }
 
   ul li {
     line-height: 1.5em;
+    font-size: 0.6em;
+    cursor: pointer;
     @include hover {
       transform: scale(1.05);
     }

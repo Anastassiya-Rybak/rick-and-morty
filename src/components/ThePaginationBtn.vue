@@ -19,7 +19,8 @@ button {
   border-radius: 20%;
   box-shadow: 1px 0 1vw 0 rgba(0, 0, 0, 0.233);
   padding: 1vw 2vw;
-
-  @include accentText($size: 0.9em);
+  font-size: calcFlexFontSize(20, 28);
+  @include accentText;
+  cursor: pointer;
 }
 </style>
