@@ -1,12 +1,7 @@
 <template>
   <div class="location-page container">
     <TheLoading v-if="!locationList" />
-    <ul class="location-page__list location-list" v-else>
-      <li @click="jumpTo(location)" v-for="location in locationList" :key="location">
-        <h4>{{ location.name }}</h4>
-        <span>{{ location.type }}</span>
-      </li>
-    </ul>
+    <TheListItem v-else :listContent="locationList" path="Locations" />
     <div class="pagination" v-if="overallInfo">
       <ThePaginationBtn
         class="pagination__item"
@@ -23,6 +18,7 @@
 <script setup>
 import TheLoading from '@/components/TheLoading.vue'
 import ThePaginationBtn from '@/components/ThePaginationBtn.vue'
+import TheListItem from '@/components/TheListItem.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import { onBeforeUpdate, onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
@@ -40,10 +36,6 @@ const fetchLocations = async (num) => {
   const data = await useApiRequest(`location?page=${num}`)
   locationList.value = data.results
   overallInfo.value = data.info
-}
-
-const jumpTo = (episode) => {
-  router.push('/Locations/' + episode.id)
 }
 
 const jumpToAnotherPage = (num) => {
@@ -85,35 +77,6 @@ onBeforeUnmount(() => {
   font-size: calcFlexFontSize(22, 30);
   @include media(1220px) {
     width: 60%;
-  }
-}
-
-.location-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 1vw 1vw;
-  cursor: pointer;
-
-  @include hover {
-    transform: scale(1.05);
-  }
-
-  &:nth-child(odd) {
-    background-color: rgba(240, 248, 255, 0.479);
-  }
-
-  h4,
-  span {
-    display: inline;
-  }
-
-  h4 {
-    font-size: 0.9em;
-    letter-spacing: 0.05em;
-  }
-
-  span {
-    font-size: 0.8em;
   }
 }
 

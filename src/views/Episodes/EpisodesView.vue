@@ -1,12 +1,7 @@
 <template>
   <div class="episode-page container">
     <TheLoading v-if="!episodesList" />
-    <ul class="episode-page__list episode-list" v-else>
-      <li @click="jumpToEpisode(episode)" v-for="episode in episodesList" :key="episode">
-        <h4>{{ episode.name }}</h4>
-        <span>{{ episode.air_date }}</span>
-      </li>
-    </ul>
+    <TheListItem v-else :listContent="episodesList" path="Episodes" />
     <div class="pagination" v-if="overallInfo">
       <ThePaginationBtn
         class="pagination__item"
@@ -23,6 +18,7 @@
 <script setup>
 import TheLoading from '@/components/TheLoading.vue'
 import ThePaginationBtn from '@/components/ThePaginationBtn.vue'
+import TheListItem from '@/components/TheListItem.vue'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import { onBeforeUpdate, onBeforeMount, onBeforeUnmount, ref, watch } from 'vue'
@@ -40,10 +36,6 @@ const fetchEpisodes = async (num) => {
   const data = await useApiRequest(`episode?page=${num}`)
   episodesList.value = data.results
   overallInfo.value = data.info
-}
-
-const jumpToEpisode = (episode) => {
-  router.push('/Episodes/' + episode.id)
 }
 
 const jumpToAnotherPage = (num) => {
@@ -85,35 +77,6 @@ onBeforeUnmount(() => {
   padding: 3vh 0 2vh;
   @include media(1220px) {
     width: 60%;
-  }
-}
-
-.episode-list li {
-  display: flex;
-  justify-content: space-between;
-  padding: 1vw 1vw;
-  cursor: pointer;
-
-  @include hover {
-    transform: scale(1.05);
-  }
-
-  &:nth-child(odd) {
-    background-color: rgba(240, 248, 255, 0.479);
-  }
-
-  h4,
-  span {
-    display: inline;
-  }
-
-  h4 {
-    font-size: 0.9em;
-    letter-spacing: 0.05em;
-  }
-
-  span {
-    font-size: 0.8em;
   }
 }
 

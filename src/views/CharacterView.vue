@@ -38,25 +38,21 @@
     </section>
     <section class="episode-links">
       <h2>эпизоды с персонажем:</h2>
-      <ul v-if="!loading">
-        <li v-for="(episode, idx) in characterData.episode" :key="idx" @click="jumpTo(episode)">
-          Эпизод № {{ getLinkId(episode) }}
-        </li>
-      </ul>
+      <TheListItem v-if="!loading" :listContent="characterData.episode" path="Episodes" />
     </section>
   </div>
 </template>
 
 <script setup>
+import TheListItem from '@/components/TheListItem.vue'
 import { useMultiStore } from '@/stores/multi'
 import { useApiRequest } from '@/composables/useApiRequest'
 import { useFindData } from '@/composables/useFindData'
 import TheLoading from '@/components/TheLoading.vue'
 import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
 const multiStore = useMultiStore()
 const loading = ref(true)
 
@@ -79,10 +75,6 @@ const findData = () => {
 const getLinkId = (str) => {
   const strToArr = str.split('/')
   return strToArr[strToArr.length - 1]
-}
-
-const jumpTo = (episode) => {
-  router.push('/Episodes/' + getLinkId(episode))
 }
 
 watch(characterData, () => {
@@ -192,19 +184,6 @@ onBeforeUnmount(() => {
     font-size: 0.8em;
     font-weight: 100;
     line-height: 2em;
-  }
-
-  ul li {
-    line-height: 1.5em;
-    font-size: 0.6em;
-    cursor: pointer;
-    @include hover {
-      transform: scale(1.05);
-    }
-
-    &:nth-child(odd) {
-      background-color: rgba(240, 248, 255, 0.479);
-    }
   }
 }
 </style>
