@@ -62,12 +62,15 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
+@import './../assets/vars';
+
 .home-view {
   margin: 5vh auto 5vh auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   row-gap: 2vh;
+  font-size: calcFlexFontSize(28, 32);
 
   ul {
     margin: 0 auto;
@@ -78,6 +81,10 @@ onBeforeMount(() => {
 
     li {
       width: calc(33% - 1%);
+
+      @include media(1220px) {
+        width: calc(16% - 1%);
+      }
     }
   }
 }

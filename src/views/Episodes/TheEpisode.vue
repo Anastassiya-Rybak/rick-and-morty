@@ -80,6 +80,7 @@ onBeforeUnmount(() => {
 
 .episode-page {
   padding: 3vh 0 2vh;
+  font-size: calcFlexFontSize(24, 32);
 
   &__info {
     padding: 2vh 1vw;
@@ -91,14 +92,15 @@ onBeforeUnmount(() => {
     row-gap: 1vh;
 
     h2 {
-      @include accentText(1em);
+      @include accentText();
+      font-size: 1em;
       text-align: center;
     }
 
     span,
     span b {
       color: rgb(87, 86, 86);
-      font-size: 0.9em;
+      font-size: 0.7em;
       opacity: 0.9;
       text-transform: uppercase;
     }
@@ -107,7 +109,7 @@ onBeforeUnmount(() => {
   &__links {
     h2 {
       text-transform: uppercase;
-      font-size: 1.3em;
+      font-size: 0.9em;
       font-weight: 100;
       margin: 2vh 0;
     }
@@ -123,6 +125,10 @@ onBeforeUnmount(() => {
         @include hover {
           scale: (1.1);
           z-index: 4;
+        }
+
+        @include media(1020px) {
+          width: 16.6%;
         }
       }
     }

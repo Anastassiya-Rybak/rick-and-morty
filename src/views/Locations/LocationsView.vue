@@ -82,12 +82,17 @@ onBeforeUnmount(() => {
 
 .location-page {
   padding: 3vh 0 2vh;
+  font-size: calcFlexFontSize(22, 30);
+  @include media(1220px) {
+    width: 60%;
+  }
 }
 
 .location-list li {
   display: flex;
   justify-content: space-between;
   padding: 1vw 1vw;
+  cursor: pointer;
 
   @include hover {
     transform: scale(1.05);
