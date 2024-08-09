@@ -55,10 +55,11 @@ import TheLoading from '@/components/TheLoading.vue'
 import { onBeforeUnmount, onBeforeUpdate, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const route = useRoute()
-const router = useRouter()
-const multiStore = useMultiStore()
-const loading = ref(true)
+const route = useRoute(),
+  router = useRouter(),
+  multiStore = useMultiStore(),
+  loading = ref(true)
+
 
 const characterData = ref(null)
 

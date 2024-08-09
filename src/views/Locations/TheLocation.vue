@@ -101,6 +101,7 @@ onBeforeUnmount(() => {
     span,
     span b {
       color: rgb(87, 86, 86);
+
       font-size: 0.8em;
       opacity: 0.9;
       text-transform: uppercase;
@@ -110,6 +111,7 @@ onBeforeUnmount(() => {
   &__links {
     h2 {
       text-transform: uppercase;
+
       font-size: 1.1em;
       font-weight: 100;
       margin: 2vh 0;
